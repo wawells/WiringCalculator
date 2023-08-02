@@ -68,7 +68,7 @@ public class Speaker {
      */
     public String draw()
     {
-        String display = getName() + "    (" + getResistance() + "\u03A9)" + "   +" + "  -\n";
+        String display = getName() + "    (" + getResistance() + "\u03A9)" + "   +" + "  -";
 
         return display; 
     }

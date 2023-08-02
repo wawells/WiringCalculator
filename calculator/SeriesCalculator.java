@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * William Wells
  * This code is protected by copyright.
  */
-public class SeriesCalculator
+public class SeriesCalculator extends Calculator
 {
     private ArrayList<Speaker> speakers;
 
@@ -20,7 +20,7 @@ public class SeriesCalculator
 
     public SeriesCalculator()
     {
-        this.speakers = new ArrayList<Speaker>();
+        super();
 
     }
 
@@ -30,31 +30,7 @@ public class SeriesCalculator
      */
     public SeriesCalculator(Speaker[] speakerArray)
     {
-        this();
-        if (speakerArray != null)
-        {
-            for (int i = 0; i < speakerArray.length; i++)
-            {
-                speakers.add(speakerArray[i]);
-            }
-        }
-
-    }
-
-    /**
-     * Calculates the total impedance for all speakers in the system (per series wiring).
-     * @return int total resistance of the system.
-     */
-    public int getLoad()
-    {
-        int load = 0;
-
-        for (Speaker current: speakers)
-        {
-            load += current.getResistance();
-        }
-
-        return load;
+        super(speakerArray);
     }
 
     /**
@@ -64,7 +40,7 @@ public class SeriesCalculator
      */
     public Speaker getSpeaker(int index)
     {
-        return this.speakers.get(index);
+        return super.getSpeaker(index);
     }
 
 
@@ -74,7 +50,7 @@ public class SeriesCalculator
      */
     public int getNumSpeakers()
     {
-        return this.speakers.size();
+        return super.getNumSpeakers();
     }
 
 
@@ -93,7 +69,7 @@ public class SeriesCalculator
         else if (getNumSpeakers() > 1)
         {
             desc = "There are currently " + getNumSpeakers() + " speakers in the system.";
-            desc += "\nTotal resistance for system (series): " + getLoad() + "\u03A9";
+            desc += "\nTotal resistance for system (series): " + getResistance() + "\u03A9";
         } else //0 speakers
         {
             desc = "There are currently no speakers in the system.";
@@ -115,11 +91,9 @@ public class SeriesCalculator
             for (int i = 0; i < getNumSpeakers(); i++)
             {
                 current = getSpeaker(i);
-                diagram += current.draw() + "      ";
+                diagram += current.draw() + "\n";
             }
-            
-            //TODO speakers need to be drawn differently
-            appendSeries(diagram);
+            //TODO
         }
     
 
@@ -149,13 +123,6 @@ public class SeriesCalculator
     }
 
 
-    private String appendSeries(String input)
-    {
-        String appended = input;
-        //TODO how to display series wiring in text
-
-        return appended;
-    }
 
 
 
