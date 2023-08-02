@@ -1,7 +1,7 @@
 {
     "java.project.sourcePaths": [
-        "src",
-        "calculator"
+        "calculator",
+        "testing"
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
