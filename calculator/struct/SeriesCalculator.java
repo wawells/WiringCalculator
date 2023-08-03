@@ -1,3 +1,4 @@
+package struct;
 import java.util.ArrayList;
 
 /**
@@ -11,17 +12,16 @@ public class SeriesCalculator extends Calculator
     private ArrayList<Speaker> speakers;
 
 
-    public static void main (String[] args)
-    {
-        Speaker[] arr = {new Speaker(4, "A"), new Speaker(4, "B"), new Speaker(4, "C")};
-        SeriesCalculator sc = new SeriesCalculator(arr);
-        System.out.println(sc.createDiagram());
-    }
+    // public static void main (String[] args)
+    // {
+    //     Speaker[] arr = {new Speaker(4, "A"), new Speaker(4, "B"), new Speaker(4, "C")};
+    //     SeriesCalculator sc = new SeriesCalculator(arr);
+    //     System.out.println(sc.createDiagram());
+    // }
 
     public SeriesCalculator()
     {
-        super();
-
+        this(null);
     }
 
     /**
@@ -30,7 +30,15 @@ public class SeriesCalculator extends Calculator
      */
     public SeriesCalculator(Speaker[] speakerArray)
     {
-        super(speakerArray);
+        this.speakers = new ArrayList<Speaker>();
+        if (speakerArray != null && speakerArray.length > 0)
+        {
+            System.out.println("Got here");
+            for (int i = 0; i < speakerArray.length; i++)
+            {
+                this.speakers.add(speakerArray[i]);
+            }
+        }
     }
 
     /**
@@ -40,7 +48,7 @@ public class SeriesCalculator extends Calculator
      */
     public Speaker getSpeaker(int index)
     {
-        return super.getSpeaker(index);
+        return this.speakers.get(index);
     }
 
 
@@ -50,7 +58,7 @@ public class SeriesCalculator extends Calculator
      */
     public int getNumSpeakers()
     {
-        return super.getNumSpeakers();
+        return this.speakers.size();
     }
 
 

@@ -1,3 +1,4 @@
+package struct;
 import java.util.ArrayList;
 
 public abstract class Calculator {
@@ -21,19 +22,13 @@ public abstract class Calculator {
         }
     }
 
-    public Speaker getSpeaker(int index)
-    {
-        return this.speakers.get(index);
-    }
+    public abstract Speaker getSpeaker(int index);
 
     /**
      * Returns the number of speakers in the system.
      * @return int number of speakers
      */
-    public int getNumSpeakers()
-    {
-        return this.speakers.size();
-    }
+    public abstract int getNumSpeakers();
 
 
     /**

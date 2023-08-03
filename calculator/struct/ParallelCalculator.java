@@ -1,19 +1,24 @@
+package struct;
 import java.util.ArrayList;
 public class ParallelCalculator extends Calculator
 {
-    private boolean varResist;
     private ArrayList<Speaker> speakers;
 
     public ParallelCalculator()
     {
-        super();
-        varResist = false;
+        this(null);
     }
 
     public ParallelCalculator(Speaker[] speakerArray)
     {
-        super(speakerArray);
-        //TODO need to change value of varResist from speakerArray, AND when adding speakers
+        speakers = new ArrayList<Speaker>();
+        if (speakerArray != null && speakerArray.length > 0)
+        {
+            for (int i = 0; i < speakerArray.length; i++)
+            {
+                speakers.add(speakerArray[i]);
+            }
+        }
     }
 
 
@@ -31,16 +36,14 @@ public class ParallelCalculator extends Calculator
         }
         else if (numSpeakers >= 2)
         {
-            if (varResist)
+            double toDiv = 0;
+            for (Speaker current: speakers)
             {
-                double toDiv = 0;
-                for (Speaker current: speakers)
-                {
-                    toDiv += 1 / current.getResistance();
-                }
-
-                impedance = (int)(1 / toDiv);
+               toDiv += 1 / current.getResistance();
             }
+
+            impedance = (int)(1 / toDiv);
+            
         }
 
 
@@ -49,12 +52,12 @@ public class ParallelCalculator extends Calculator
 
     @Override
     public Speaker getSpeaker(int index) {
-        return super.getSpeaker(index);
+        return this.speakers.get(index);
     }
 
     @Override
     public int getNumSpeakers() {
-        return super.getNumSpeakers();
+        return this.speakers.size();
     }
 
     @Override

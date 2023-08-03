@@ -1,3 +1,4 @@
+package struct;
 /**
  * A class representing a speaker.
  * William Wells
