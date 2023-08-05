@@ -32,6 +32,7 @@ public class WiringCalculator
      * Calculates the resistance of the system wired in parallel.
      */
     public int getParallel() {
+        //TODO step through to identify why value is grossly high.
         int numSpeakers = getNumSpeakers();
         int impedance = 0;
         if (numSpeakers == 1)
@@ -115,10 +116,12 @@ public class WiringCalculator
         else if (getNumSpeakers() > 1)
         {
             desc = "There are currently " + getNumSpeakers() + " speakers in the system.";
-            //TODO desc += "\nTotal resistance for system (series): " + getResistance() + "\u03A9";
+            desc += "\nTotal resistance for system (Series): " + getSeries() + "\u03A9 \n";
+            desc += "\nTotal resistance for system (Parallel): " + getParallel() + "\u03A9 \n";
+
         } else //0 speakers
         {
-            desc = "There are currently no speakers in the system.";
+            desc = "There are no speakers in the system.";
         }
 
         return desc;    
@@ -128,17 +131,45 @@ public class WiringCalculator
      * A method to create a text-based visual representation of wiring speakers in series. Including names and resistances of each.
      * @return String diagram
      */
-    public String createDiagram() {
-        String diagram = "";
+    public String createDiagram(boolean parallel) {
+        
+        String diagram = "0 Speakers in the System";
+        
         if (getNumSpeakers() > 0)
         {
-            Speaker current = null;
-            for (int i = 0; i < getNumSpeakers(); i++)
+            if (!parallel)
             {
-                current = getSpeaker(i);
-                diagram += current.draw() + "\n";
+                //speakers are in series here
+                diagram = "Audio Wiring Diagram (Series) \nAmplifier (+) -> ";
+                for (Speaker current: speakers)
+                {
+                    diagram += current.getName() + " (+) \n";  
+                    diagram += current.getName() + " (-) -> ";                  
+                }
+
+                diagram += "Amplifier (-)";
+
+            } else 
+            {
+                //speakers are in parallel here
+                diagram = "Audio Wiring Diagram (Parallel) \nAmplifier (+) -> ";
+                boolean fPass = true;
+                Speaker prev = getSpeaker(0);
+                for (int i = 1; i < getNumSpeakers(); i++)
+                {
+                    System.out.println("NUMBER OF SPEAKERS TESTING: " + getNumSpeakers());
+                    diagram += prev.getName() + " (+) \n"; 
+                    if (fPass)
+                    {
+                        diagram += "Amplifier (-) -> ";
+                        fPass = false;
+                    } 
+                    diagram += prev.getName() + " (-)\n";
+                    prev = getSpeaker(i);
+                    //TODO parallel printing
+                }
+
             }
-            //TODO
         }
     
 
@@ -150,15 +181,20 @@ public class WiringCalculator
     {
         return test >= 0 && test <= this.speakers.size();
     }
+
+
+    public static void main (String[] args)
+    {
+        Speaker[] arr = {new Speaker(4, "A"), new Speaker(4, "B"), new Speaker(4, "C")};
+        Speaker[] arr2 = {new Speaker(4, "single")};
+        WiringCalculator sc = new WiringCalculator(arr);
+        System.out.println(sc.createDiagram(true));
+    } 
+
+
 }
  
 
 
 
 
-// public static void main (String[] args)
-    // {
-    //     Speaker[] arr = {new Speaker(4, "A"), new Speaker(4, "B"), new Speaker(4, "C")};
-    //     SeriesCalculator sc = new SeriesCalculator(arr);
-    //     System.out.println(sc.createDiagram());
-    // } 
