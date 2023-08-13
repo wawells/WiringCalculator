@@ -8,7 +8,7 @@ import struct.Speaker;
 
 public class WiringCalculatorTest {
 
-    private Speaker[] speakers = {new Speaker(8, "A"), new Speaker(4, "B"), new Speaker(4, "C")}; 
+    private Speaker[] speakers = {new Speaker(16, "A"), new Speaker(16, "B"), new Speaker(16, "C"), new Speaker(16, "D")}; 
     private Speaker[] speakersB = {new Speaker(16, "A"), new Speaker(16, "B")}; 
     private Speaker[] speakersC = {new Speaker(16, "A")};
     private Speaker[] speakerFail = null;
@@ -32,7 +32,7 @@ public class WiringCalculatorTest {
     @Test
     public void testGetNumSpeakers()
     {
-        assertEquals(3, calc.getNumSpeakers());
+        assertEquals(4, calc.getNumSpeakers());
 
         //test one
         calc = new WiringCalculator(speakersC);
@@ -46,18 +46,18 @@ public class WiringCalculatorTest {
     @Test
     public void testGetSpeaker()
     {
-        assertEquals(8, calc.getSpeaker(0).getResistance());
+        assertEquals(16, calc.getSpeaker(0).getResistance());
 
         //test invalid index
-        assertEquals(16, calc.getSpeaker(-1).getResistance());
-        
+        assertNull(calc.getSpeaker(-1));
+        assertNull(calc.getSpeaker(15));
 
     }
 
     @Test
     public void testSeries()
     {
-        assertEquals(16, calc.getSeries());
+        assertEquals(64, calc.getSeries());
 
         //test B
         calc = new WiringCalculator(speakersB);
@@ -71,14 +71,15 @@ public class WiringCalculatorTest {
     @Test
     public void testParallel()
     {
-        assertEquals(2, calc.getParallel());
+        //4 speakers, each 16 ohms.
+        assertEquals(4, calc.getParallel());
 
         //test B
         calc = new WiringCalculator(speakersB);
         assertEquals(8, calc.getParallel());
 
         //test null
-        
+
     }
 
 }

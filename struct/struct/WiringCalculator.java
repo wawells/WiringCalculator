@@ -1,6 +1,9 @@
 package struct;
 import java.util.ArrayList;
 
+/**
+ * A class to calculate impedances and display wiring diagrams for speakers.
+ */
 public class WiringCalculator
 {
     private ArrayList<Speaker> speakers;
@@ -29,29 +32,26 @@ public class WiringCalculator
 
 
     /**
-     * Calculates the resistance of the system wired in parallel.
+     * Calculates the resistance of the entire system in parallel.
      */
     public int getParallel() {
-        //TODO step through to identify why value is grossly high.
         int numSpeakers = getNumSpeakers();
         int impedance = 0;
         if (numSpeakers == 1)
         {
             impedance = getSpeaker(0).getResistance();
         }
-        else if (numSpeakers >= 2)
+        else if (numSpeakers > 1)
         {
-            double toDiv = 0;
+            double inverseSum = 0.0;
             for (Speaker current: speakers)
             {
-               toDiv += 1 / current.getResistance();
+               inverseSum += (1.0/current.getResistance());
             }
 
-            impedance = (int)(1 / toDiv);
+            impedance = (int)(1.0 / inverseSum);
             
         }
-
-
         return impedance;
     }
 
@@ -73,7 +73,6 @@ public class WiringCalculator
                 sum += current.getResistance();
             }
         }
-
         return sum;
     }
 
@@ -85,12 +84,10 @@ public class WiringCalculator
      */
      public Speaker getSpeaker(int index) {
 
-        Speaker retSpk = new Speaker(16, "PlaceHolderSpeaker. getSpeaker Failed");
-        if (isValid(index)) retSpk = this.speakers.get(index);
+        Speaker found = null;
+        if (isValid(index)) found = this.speakers.get(index);
         
-        //perhaps create InvalidIndexException or catch this somewhere
-
-        return retSpk;
+        return found;
     }
 
     
@@ -152,21 +149,18 @@ public class WiringCalculator
             } else 
             {
                 //speakers are in parallel here
-                diagram = "Audio Wiring Diagram (Parallel) \nAmplifier (+) -> ";
-                boolean fPass = true;
                 Speaker prev = getSpeaker(0);
+                Speaker curr = prev;
+                
+                diagram = "Audio Wiring Diagram (Parallel) \nAmplifier (+) -> " + prev.getName() + " (+)\n";
+                diagram += "Amplifier (-) -> " + prev.getName() + " (-)\n";
+
                 for (int i = 1; i < getNumSpeakers(); i++)
                 {
-                    System.out.println("NUMBER OF SPEAKERS TESTING: " + getNumSpeakers());
-                    diagram += prev.getName() + " (+) \n"; 
-                    if (fPass)
-                    {
-                        diagram += "Amplifier (-) -> ";
-                        fPass = false;
-                    } 
-                    diagram += prev.getName() + " (-)\n";
+                    curr = getSpeaker(i);
+                    diagram += prev.getName() + " (+) -> " + curr.getName() + " (+)\n";
+                    diagram += prev.getName() + " (-) -> " + curr.getName() + " (-)\n";
                     prev = getSpeaker(i);
-                    //TODO parallel printing
                 }
 
             }
@@ -185,7 +179,7 @@ public class WiringCalculator
 
     public static void main (String[] args)
     {
-        Speaker[] arr = {new Speaker(4, "A"), new Speaker(4, "B"), new Speaker(4, "C")};
+        Speaker[] arr = {new Speaker(16, "A"), new Speaker(16, "B"), new Speaker(16, "C"), new Speaker(16, "D")}; 
         Speaker[] arr2 = {new Speaker(4, "single")};
         WiringCalculator sc = new WiringCalculator(arr);
         System.out.println(sc.createDiagram(true));
