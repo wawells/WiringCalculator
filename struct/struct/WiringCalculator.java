@@ -177,15 +177,6 @@ public class WiringCalculator
     }
 
 
-    public static void main (String[] args)
-    {
-        Speaker[] arr = {new Speaker(16, "A"), new Speaker(16, "B"), new Speaker(16, "C"), new Speaker(16, "D")}; 
-        Speaker[] arr2 = {new Speaker(4, "single")};
-        WiringCalculator sc = new WiringCalculator(arr);
-        System.out.println(sc.createDiagram(true));
-    } 
-
-
 }
  
 
