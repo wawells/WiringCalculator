@@ -12,6 +12,8 @@ public class WiringInterface
     private JButton addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, generateButton;
     private JLabel topLabel, bottomLabel;
 
+    private WireListener listener;
+
     public WiringInterface() 
     {
         setup();
@@ -32,16 +34,23 @@ public class WiringInterface
         spacerPanel = new JPanel();
         spacerPanel.setLayout(new BoxLayout(spacerPanel, BoxLayout.X_AXIS));
         spacerPanel.setPreferredSize(new Dimension(10,15));
-        topLabel = new JLabel("Speakers:");
+        topLabel = new JLabel("  Speakers:");
         spacerPanel.add(topLabel); 
         
         speakerList = new JTextArea(10, 30);
         speakerList.setEditable(true);
         scrollPane = new JScrollPane(speakerList);
         
+        resultPanel = new JPanel(new BorderLayout());
+        resultField = new JTextArea(10, 30);
+        resultField.setPreferredSize(new Dimension(300, 300));
+        generateButton = new JButton("Show Wiring");
+        bottomLabel = new JLabel("  Results:");
+
+        
         buttonPanel = new JPanel(new GridBagLayout());  
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0; //make buttons equally spaced
 
         addSpeaker = new JButton("Add");
@@ -49,13 +58,21 @@ public class WiringInterface
         deleteSpeaker = new JButton("Delete");
         clearSpeakers = new JButton("Clear");
 
-        Dimension buttonSize = new Dimension(100, 100);
+        //below is not necessary because we are using GBC
 
-        addSpeaker.setPreferredSize(buttonSize);
-        editSpeaker.setPreferredSize(buttonSize);
-        deleteSpeaker.setPreferredSize(buttonSize);
-        clearSpeakers.setPreferredSize(buttonSize);
+        // Dimension buttonSize = new Dimension(100, 50);
+        // addSpeaker.setPreferredSize(buttonSize);
+        // editSpeaker.setPreferredSize(buttonSize);
+        // deleteSpeaker.setPreferredSize(buttonSize);
+        // clearSpeakers.setPreferredSize(buttonSize);
 
+        listener = new WireListener(speakerList, resultField, addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, generateButton);
+
+        addSpeaker.addActionListener(listener);
+        editSpeaker.addActionListener(listener);
+        deleteSpeaker.addActionListener(listener);
+        clearSpeakers.addActionListener(listener);
+        generateButton.addActionListener(listener);
 
         gbc.gridx = 0;
         buttonPanel.add(addSpeaker, gbc);
@@ -70,13 +87,6 @@ public class WiringInterface
         buttonPanel.add(clearSpeakers, gbc);
 
 
-        resultPanel = new JPanel(new BorderLayout());
-        resultField = new JTextArea(10, 30);
-        resultField.setPreferredSize(new Dimension(300, 300));
-        generateButton = new JButton("Show Wiring");
-        bottomLabel = new JLabel("Results:");
-
-
         //top half of app
         topPanel = new JPanel(new BorderLayout());
         topPanel.add(scrollPane, BorderLayout.NORTH);
@@ -84,8 +94,8 @@ public class WiringInterface
 
 
         //bottom half of app
-        //resultPanel.add(bottomLabel, BorderLayout.NORTH);
-        resultPanel.add(resultField, BorderLayout.NORTH);
+        resultPanel.add(bottomLabel, BorderLayout.NORTH);
+        resultPanel.add(resultField, BorderLayout.CENTER);
         resultPanel.add(generateButton, BorderLayout.SOUTH);
         
 
