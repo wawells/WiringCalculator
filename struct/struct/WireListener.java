@@ -2,7 +2,8 @@ package struct;
 
 import javax.swing.*;
 
-import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Dimension;
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -27,6 +28,7 @@ public class WireListener implements ActionListener {
 
         this.speakerArr = new ArrayList<String>();
 
+        UIManager.put("OptionPane.minimumSize", new Dimension(300, 250));
         createPopup();
     }
 
@@ -38,7 +40,7 @@ public class WireListener implements ActionListener {
 
         if (source == addSpeaker)
         {
-            int result = JOptionPane.showConfirmDialog(speakerList, promptPanel, "Please enter speaker information", JOptionPane.OK_CANCEL_OPTION);
+            int result = JOptionPane.showConfirmDialog(speakerList, promptPanel, "Add a Speaker", JOptionPane.OK_CANCEL_OPTION);
 
             if (result == JOptionPane.OK_OPTION)
             {
@@ -65,11 +67,10 @@ public class WireListener implements ActionListener {
 
     private void createPopup()
     {
-        //TODO change the layout so the input fields are on two lines instead of side by side
-        FlowLayout lay = new FlowLayout();
-        this.promptPanel = new JPanel(lay);
-        this.speakerName = new JTextField("Generic Speaker Name");
-        this.speakerResist = new JTextField("8");
+        // FlowLayout lay = new FlowLayout();
+        this.promptPanel = new JPanel(new GridLayout(2, 2));
+        this.speakerName = new JTextField();
+        this.speakerResist = new JTextField();
 
         promptPanel.add(new JLabel("Speaker Name Here: "));
         promptPanel.add(speakerName);

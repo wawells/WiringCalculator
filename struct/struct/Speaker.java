@@ -18,15 +18,17 @@ public class Speaker {
 
     public Speaker(int resistance, String name)
     {
-        this(resistance, name, -1);
-    }
-
-    public Speaker(int resistance, String name, int size)
-    {
+        //this(resistance, name);
         if (isValidResistance(resistance)) this.resistance = resistance;
         if (isValid(name)) this.name = name;
-        this.size = size;
     }
+
+    // public Speaker(int resistance, String name, int size)
+    // {
+    //     if (isValidResistance(resistance)) this.resistance = resistance;
+    //     if (isValid(name)) this.name = name;
+    //     this.size = size;
+    // }
 
 
     public String getName()
