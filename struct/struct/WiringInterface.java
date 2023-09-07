@@ -1,13 +1,18 @@
 package struct;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class WiringInterface 
 {
     private JFrame frame;
-    private JPanel contentPanel, topPanel, buttonPanel, spacerPanel, resultPanel;
-    private JTextArea speakerList, resultField;
+    private JPanel contentPanel, topPanel, buttonPanel, resultPanel;
+    private DefaultTableModel tableModel;
+    private JTable speakerTable;
+    //private ArrayList<String> speakerData;
+    private JTextArea resultField;
     private JScrollPane scrollPane;
     private JButton addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, generateButton;
     private JLabel topLabel, bottomLabel;
@@ -31,16 +36,19 @@ public class WiringInterface
 
         contentPanel = new JPanel(new BorderLayout());
         
-        spacerPanel = new JPanel();
-        spacerPanel.setLayout(new BoxLayout(spacerPanel, BoxLayout.X_AXIS));
-        spacerPanel.setPreferredSize(new Dimension(10,15));
-        topLabel = new JLabel("  Speakers:");
-        spacerPanel.add(topLabel); 
+        // spacerPanel = new JPanel();
+        // spacerPanel.setLayout(new BoxLayout(spacerPanel, BoxLayout.X_AXIS));
+        // spacerPanel.setPreferredSize(new Dimension(10,15));
+        // topLabel = new JLabel("  Speakers:");
+        // spacerPanel.add(topLabel); 
         
-        speakerList = new JTextArea(10, 30);
-        speakerList.setEditable(true);
-        scrollPane = new JScrollPane(speakerList);
-        
+        tableModel = new DefaultTableModel();
+        tableModel.addColumn("Speaker Name");
+        tableModel.addColumn("Speaker Resistance");
+        //speakerData = new ArrayList<String>();
+        speakerTable = new JTable(tableModel);
+        scrollPane = new JScrollPane(speakerTable);
+
         resultPanel = new JPanel(new BorderLayout());
         resultField = new JTextArea(10, 30);
         resultField.setPreferredSize(new Dimension(300, 300));
@@ -66,7 +74,7 @@ public class WiringInterface
         // deleteSpeaker.setPreferredSize(buttonSize);
         // clearSpeakers.setPreferredSize(buttonSize);
 
-        listener = new WireListener(speakerList, resultField, addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, generateButton);
+        listener = new WireListener(speakerTable, resultField, addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, generateButton);
 
         addSpeaker.addActionListener(listener);
         editSpeaker.addActionListener(listener);
@@ -88,9 +96,9 @@ public class WiringInterface
 
 
         //top half of app
-        topPanel = new JPanel(new BorderLayout());
-        topPanel.add(scrollPane, BorderLayout.NORTH);
-        topPanel.add(buttonPanel, BorderLayout.CENTER);
+        // topPanel = new JPanel(new BorderLayout());
+        // topPanel.add(scrollPane, BorderLayout.NORTH);
+        // topPanel.add(buttonPanel, BorderLayout.CENTER);
 
 
         //bottom half of app
@@ -100,9 +108,12 @@ public class WiringInterface
         
 
         //whole app
-        contentPanel.add(spacerPanel, BorderLayout.NORTH);
-        contentPanel.add(topPanel, BorderLayout.CENTER);
+        //contentPanel.add(spacerPanel, BorderLayout.NORTH);
+        contentPanel.add(scrollPane, BorderLayout.NORTH);
+        contentPanel.add(buttonPanel, BorderLayout.CENTER);
         contentPanel.add(resultPanel, BorderLayout.SOUTH);
+
+        //TODO fix UI
     }
 
 

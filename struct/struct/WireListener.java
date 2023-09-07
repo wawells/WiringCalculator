@@ -9,16 +9,17 @@ import java.util.ArrayList;
 
 public class WireListener implements ActionListener {
 
-    private JTextArea speakerList, resultField;
+    private JTable speakerTable;
+    private JTextArea resultField;
     private JButton addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, generate;
 
-    private ArrayList<String> speakerArr; //list of speakers to update
+    private ArrayList<String> speakerData; //list of speakers to update
     private JPanel promptPanel;
     private JTextField speakerName, speakerResist;
 
-    public WireListener(JTextArea speakerList, JTextArea resultField, JButton addSpeaker, JButton editSpeaker, JButton deleteSpeaker, JButton clearSpeakers, JButton generate)
+    public WireListener(JTable speakerTable, JTextArea resultField, JButton addSpeaker, JButton editSpeaker, JButton deleteSpeaker, JButton clearSpeakers, JButton generate)
     {
-        this.speakerList = speakerList;
+        this.speakerTable = speakerTable;
         this.resultField = resultField;
         this.addSpeaker = addSpeaker;
         this.editSpeaker = editSpeaker;
@@ -26,7 +27,7 @@ public class WireListener implements ActionListener {
         this.clearSpeakers = clearSpeakers;
         this.generate = generate;
 
-        this.speakerArr = new ArrayList<String>();
+        this.speakerData = new ArrayList<String>();
 
         UIManager.put("OptionPane.minimumSize", new Dimension(300, 250));
         createPopup();
@@ -40,11 +41,25 @@ public class WireListener implements ActionListener {
 
         if (source == addSpeaker)
         {
-            int result = JOptionPane.showConfirmDialog(speakerList, promptPanel, "Add a Speaker", JOptionPane.OK_CANCEL_OPTION);
+            int result = JOptionPane.showConfirmDialog(speakerTable, promptPanel, "Add a Speaker", JOptionPane.OK_CANCEL_OPTION);
 
             if (result == JOptionPane.OK_OPTION)
             {
-                //TODO the user has entered the speaker info and it needs to be parsed
+                //TODO create array for each row, where each entry in aformentioned array corresponds to column data
+                String spkrString = "";
+                //the user has entered the speaker info and it needs to be parsed
+                if (isValid(this.speakerResist.getText())) 
+                {
+                    if (isValid(Integer.parseInt(this.speakerResist.getText())))
+                    {
+                        spkrString = this.speakerResist.getText();
+
+                        //if (isValid(this.speakerName.getText())) spkrString += this.speakerName.getText();
+
+                    }
+
+                }
+                
             }
         } else if (source == editSpeaker)
         {
@@ -54,6 +69,7 @@ public class WireListener implements ActionListener {
             
         } else if (source == clearSpeakers)
         {
+            this.speakerData = new ArrayList<String>();
 
         } else if (source == generate)
         {
@@ -67,7 +83,7 @@ public class WireListener implements ActionListener {
 
     private void createPopup()
     {
-        // FlowLayout lay = new FlowLayout();
+        // TODO add an additional row and column, fill them with blank data
         this.promptPanel = new JPanel(new GridLayout(2, 2));
         this.speakerName = new JTextField();
         this.speakerResist = new JTextField();
@@ -78,6 +94,31 @@ public class WireListener implements ActionListener {
         promptPanel.add(new JLabel("Speaker Resistance Here: "));
         promptPanel.add(speakerResist);
 
+    }
+
+
+    private boolean isValid(String message)
+    {
+        boolean valid = false;
+
+        if (message != null && message.length() > 0)
+        {
+            valid = true;
+        }
+
+        return valid;
+    }
+
+    private boolean isValid(int value)
+    {
+        boolean valid = false;
+
+        if (value > 0 && value < 16)
+        {
+            valid = true;
+        }
+
+        return valid;
     }
 
     
