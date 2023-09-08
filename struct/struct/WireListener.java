@@ -9,11 +9,14 @@ import java.util.ArrayList;
 
 public class WireListener implements ActionListener {
 
+    private WiringCalculator calculator;
+
     private JTable speakerTable;
     private JTextArea resultField;
     private JButton addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, generate;
 
-    private ArrayList<ArrayList<String>> speakerData; //list of speakers to update
+    private ArrayList<Speaker> speakerList;
+    private ArrayList<ArrayList<String>> tableData; //list of speakers to update
     private JPanel promptPanel;
     private JTextField speakerName, speakerResist;
 
@@ -29,7 +32,7 @@ public class WireListener implements ActionListener {
         this.clearSpeakers = clearSpeakers;
         this.generate = generate;
 
-        this.speakerData = new ArrayList<ArrayList<String>>();
+        this.tableData = new ArrayList<ArrayList<String>>();
 
         UIManager.put("OptionPane.minimumSize", new Dimension(300, 250));
         createPopup();
@@ -57,20 +60,22 @@ public class WireListener implements ActionListener {
                        int resistNum = Integer.parseInt(resistString);
                         if (isValid(resistNum))
                         {
-                            ArrayList<String> currentSpeaker = new ArrayList<String>();
+                            ArrayList<String> row = new ArrayList<String>();                            
+                            Speaker currentSpeaker;
                             String givenName = this.speakerName.getText();                            
                             if (isValid(givenName))
                             {
                                 //speaker is valid with given name here
-                                currentSpeaker.add(givenName);
-                                
+                                currentSpeaker = new Speaker(resistNum, givenName);
                             } else
                             {
                                 //speaker has valid resist but uses generic name
-                                currentSpeaker.add("Generic Speaker");
+                                currentSpeaker = new Speaker(resistNum);
                             }
-                            //TODO update this to create a speaker object
-                            currentSpeaker.add(resistString);
+
+                            speakerList.add(currentSpeaker);
+                            row.add(currentSpeaker.getName());
+                            row.add(String.valueOf(currentSpeaker.getResistance()));
                         }
 
                     } catch (NumberFormatException nfe)
@@ -89,10 +94,15 @@ public class WireListener implements ActionListener {
             
         } else if (source == clearSpeakers)
         {
-            this.speakerData = new ArrayList<ArrayList<String>>();
+            this.tableData = new ArrayList<ArrayList<String>>();
 
         } else if (source == generate)
         {
+            if (speakerList.size() > 0)
+            {
+                calculator = new WiringCalculator(speakerList);
+                //TODO decide how we will use UI to select series, parallel, or otherwise
+            }
 
         }
 

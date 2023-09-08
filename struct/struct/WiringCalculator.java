@@ -17,16 +17,17 @@ public class WiringCalculator
      * Populates speakers list with speakerArray if valid
      * @param speakerArray the list of speakers to add to speakers.
      */
-    public WiringCalculator(Speaker[] speakerArray)
+    public WiringCalculator(ArrayList<Speaker> speakerList)
     {
         speakers = new ArrayList<Speaker>();
-        if (speakerArray != null && speakerArray.length > 0)
+        if (speakerList != null && speakerList.size() > 0)
         {
-            for (int i = 0; i < speakerArray.length; i++)
+            for (Speaker current: speakerList)
             {
-                speakers.add(speakerArray[i]);
+                speakers.add(current);
             }
         }
+            
     }
 
 

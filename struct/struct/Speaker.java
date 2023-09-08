@@ -42,26 +42,23 @@ public class Speaker {
         return this.resistance;
     }
 
-
-    public int getSize()
+    public boolean setName(String name)
     {
-        return this.size;
+
     }
 
+
+    public boolean setResistance(int resistance)
+    {
+
+    }
 
     /**
      * A String containing the speaker's configuration and name
      */
     public String toString()
     {
-        String description = getName() + ". Resistance: " + getResistance();
-        if (getSize() > 0)
-        {
-            description = getName() + " is a " + getSize() + " inch driver, with a resistance of " + getResistance() + "\u03A9.";
-        } 
-       
-       
-        return description;
+        return getResistance() + ";" + getName();
     }
 
 
