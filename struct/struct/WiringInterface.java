@@ -32,7 +32,7 @@ public class WiringInterface
     {
         frame = new JFrame("Wiring Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 600);
+        frame.setSize(500, 700);
 
         contentPanel = new JPanel(new BorderLayout());
         
@@ -47,11 +47,13 @@ public class WiringInterface
         tableModel.addColumn("Speaker Resistance");
         //speakerData = new ArrayList<String>();
         speakerTable = new JTable(tableModel);
+        Dimension tableSize = new Dimension(150, 300);
+        speakerTable.setPreferredScrollableViewportSize(tableSize);
         scrollPane = new JScrollPane(speakerTable);
 
         resultPanel = new JPanel(new BorderLayout());
         resultField = new JTextArea(10, 30);
-        resultField.setPreferredSize(new Dimension(300, 300));
+        resultField.setPreferredSize(new Dimension(300, 265));
         generateButton = new JButton("Show Wiring");
         bottomLabel = new JLabel("  Results:");
 
@@ -66,13 +68,6 @@ public class WiringInterface
         deleteSpeaker = new JButton("Delete");
         clearSpeakers = new JButton("Clear");
 
-        //below is not necessary because we are using GBC
-
-        // Dimension buttonSize = new Dimension(100, 50);
-        // addSpeaker.setPreferredSize(buttonSize);
-        // editSpeaker.setPreferredSize(buttonSize);
-        // deleteSpeaker.setPreferredSize(buttonSize);
-        // clearSpeakers.setPreferredSize(buttonSize);
 
         listener = new WireListener(speakerTable, resultField, addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, generateButton);
 
@@ -96,9 +91,9 @@ public class WiringInterface
 
 
         //top half of app
-        // topPanel = new JPanel(new BorderLayout());
-        // topPanel.add(scrollPane, BorderLayout.NORTH);
-        // topPanel.add(buttonPanel, BorderLayout.CENTER);
+        topPanel = new JPanel(new BorderLayout());
+        topPanel.add(scrollPane, BorderLayout.NORTH);
+        topPanel.add(buttonPanel, BorderLayout.CENTER);
 
 
         //bottom half of app
@@ -109,11 +104,9 @@ public class WiringInterface
 
         //whole app
         //contentPanel.add(spacerPanel, BorderLayout.NORTH);
-        contentPanel.add(scrollPane, BorderLayout.NORTH);
-        contentPanel.add(buttonPanel, BorderLayout.CENTER);
+        contentPanel.add(topPanel, BorderLayout.NORTH);
         contentPanel.add(resultPanel, BorderLayout.SOUTH);
 
-        //TODO fix UI
     }
 
 
@@ -125,20 +118,3 @@ public class WiringInterface
     }
 
 }
-    
-
-
-
-
-
-
-
-
-
-    
-    //TODO add action listeners.
-    //listener = new WireListener(this.prefLength, this.prefField, this.resultField, this.copyB, this.passB);
-
-
-
-
