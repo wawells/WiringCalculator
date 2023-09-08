@@ -80,7 +80,7 @@ public class WireListener implements ActionListener {
 
                     } catch (NumberFormatException nfe)
                     {
-                        // if resist is invalid, react here
+                        System.out.println("Invalid Speaker Resistance");
                     }
 
                 }

@@ -1,5 +1,9 @@
 package testing;
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import struct.WiringCalculator;
@@ -8,12 +12,34 @@ import struct.Speaker;
 
 public class WiringCalculatorTest {
 
-    private Speaker[] speakers = {new Speaker(16, "A"), new Speaker(16, "B"), new Speaker(16, "C"), new Speaker(16, "D")}; 
-    private Speaker[] speakersB = {new Speaker(16, "A"), new Speaker(16, "B")}; 
-    private Speaker[] speakersC = {new Speaker(16, "A")};
-    private Speaker[] speakerFail = null;
+    private Speaker[] spArr1 = {new Speaker(16, "A"), new Speaker(16, "B"), new Speaker(16, "C"), new Speaker(16, "D")}; 
+    private Speaker[] spArr2 = {new Speaker(16, "A"), new Speaker(16, "B")}; 
+    private Speaker[] spArr3 = {new Speaker(16, "A")};
+    private ArrayList<Speaker> speakers = new ArrayList<Speaker>();
+    private ArrayList<Speaker> speakersB = new ArrayList<Speaker>();
+    private ArrayList<Speaker> speakersC = new ArrayList<Speaker>();
+    private ArrayList<Speaker> speakerFail = null;
 
     private WiringCalculator calc = new WiringCalculator(speakers);
+
+    @Before
+    public void setup()
+    {
+        for (int i = 0; i < spArr1.length; i++)
+        {
+            speakers.add(spArr1[i]);
+        }
+
+        for (int i = 0; i < spArr2.length; i++)
+        {
+            speakersB.add(spArr2[i]);
+        }
+
+        for (int i = 0; i < spArr3.length; i++)
+        {
+            speakersC.add(spArr3[i]);
+        }
+    }
 
 
     @Test

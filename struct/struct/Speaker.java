@@ -7,7 +7,6 @@ package struct;
 public class Speaker {
 
     private int resistance; //impedance, int representing an ohm
-    private int size; // measurement of speaker, optional
     private String name;  //optional  
 
 
@@ -19,7 +18,7 @@ public class Speaker {
     public Speaker(int resistance, String name)
     {
         //this(resistance, name);
-        if (isValidResistance(resistance)) this.resistance = resistance;
+        if (isValid(resistance)) this.resistance = resistance;
         if (isValid(name)) this.name = name;
     }
 
@@ -44,12 +43,25 @@ public class Speaker {
 
     public boolean setName(String name)
     {
-
+        boolean set = false;
+        if (isValid(name))
+        {
+            this.name = name;
+            set = true;
+        }
+        return set;
     }
 
 
     public boolean setResistance(int resistance)
     {
+        boolean set = false;
+        if (isValid(resistance))
+        {
+            this.resistance = resistance;
+            set = true;
+        }
+        return set;
 
     }
 
@@ -75,20 +87,14 @@ public class Speaker {
 
 
     /***********************private methods****************/
-    private boolean isValidResistance(int resist)
+    private boolean isValid(int resist)
     {
-        boolean valid = false;
-        if (resist >= 4 && resist <= 16 && resist % 2 == 0) valid = true;
-
-        return valid;
+        return (resist >= 4 && resist <= 16 && resist % 2 == 0);
     }
 
     private boolean isValid(String toTest)
     {
-        boolean valid = false;
-        if (toTest != null && toTest.trim().length() > 0) valid = true;
-
-        return valid;
+        return (toTest != null && toTest.trim().length() > 0);
     }
 
 
