@@ -15,12 +15,14 @@ public class WiringCalculatorTest {
     private Speaker[] spArr1 = {new Speaker(16, "A"), new Speaker(16, "B"), new Speaker(16, "C"), new Speaker(16, "D")}; 
     private Speaker[] spArr2 = {new Speaker(16, "A"), new Speaker(16, "B")}; 
     private Speaker[] spArr3 = {new Speaker(16, "A")};
+    private Speaker[] spArr4 = {new Speaker(8, "A"), new Speaker(4, "B")};
     private ArrayList<Speaker> speakers = new ArrayList<Speaker>();
     private ArrayList<Speaker> speakersB = new ArrayList<Speaker>();
     private ArrayList<Speaker> speakersC = new ArrayList<Speaker>();
+    private ArrayList<Speaker> speakersD = new ArrayList<Speaker>();
     private ArrayList<Speaker> speakerFail = null;
 
-    private WiringCalculator calc = new WiringCalculator(speakers);
+    private WiringCalculator calc;
 
     @Before
     public void setup()
@@ -38,6 +40,11 @@ public class WiringCalculatorTest {
         for (int i = 0; i < spArr3.length; i++)
         {
             speakersC.add(spArr3[i]);
+        }
+
+        for (int i = 0; i < spArr4.length; i++)
+        {
+            speakersD.add(spArr4[i]);
         }
     }
 
@@ -58,6 +65,8 @@ public class WiringCalculatorTest {
     @Test
     public void testGetNumSpeakers()
     {
+        calc = new WiringCalculator(speakers);
+
         assertEquals(4, calc.getNumSpeakers());
 
         //test one
@@ -72,6 +81,7 @@ public class WiringCalculatorTest {
     @Test
     public void testGetSpeaker()
     {
+        calc = new WiringCalculator(speakers);
         assertEquals(16, calc.getSpeaker(0).getResistance());
 
         //test invalid index
@@ -83,6 +93,7 @@ public class WiringCalculatorTest {
     @Test
     public void testSeries()
     {
+        calc = new WiringCalculator(speakers);
         assertEquals(64, calc.getSeries());
 
         //test B
@@ -97,15 +108,18 @@ public class WiringCalculatorTest {
     @Test
     public void testParallel()
     {
+        calc = new WiringCalculator(speakers);
         //4 speakers, each 16 ohms.
-        assertEquals(4, calc.getParallel());
+        assertEquals(4.0, calc.getParallel(), 0.05);
 
         //test B
         calc = new WiringCalculator(speakersB);
-        assertEquals(8, calc.getParallel());
+        assertEquals(8.0, calc.getParallel(), 0.05);
 
-        //test null
 
+        //test calc with non-int result
+        calc = new WiringCalculator(speakersD);
+        assertEquals(2.666, calc.getParallel(), 0.05);
     }
 
 }

@@ -1,6 +1,7 @@
 package struct;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.GridLayout;
 import java.awt.Dimension;
@@ -11,27 +12,27 @@ public class WireListener implements ActionListener {
 
     private WiringCalculator calculator;
 
-    private JTable speakerTable;
+    private DefaultTableModel tableModel;
     private JTextArea resultField;
-    private JButton addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, generate;
+    private JButton addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, seriesButton, parallelButton;
 
     private ArrayList<Speaker> speakerList;
     private ArrayList<ArrayList<String>> tableData; //list of speakers to update
     private JPanel promptPanel;
     private JTextField speakerName, speakerResist;
 
-    //TODO should have an arraylist of <Speaker> instead of strings, so we can take advantage of parsing for int
-
-    public WireListener(JTable speakerTable, JTextArea resultField, JButton addSpeaker, JButton editSpeaker, JButton deleteSpeaker, JButton clearSpeakers, JButton generate)
+    public WireListener(DefaultTableModel tableModel, JTextArea resultField, JButton addSpeaker, JButton editSpeaker, JButton deleteSpeaker, JButton clearSpeakers, JButton seriesButton, JButton parallelButton)
     {
-        this.speakerTable = speakerTable;
+        this.tableModel = tableModel;
         this.resultField = resultField;
         this.addSpeaker = addSpeaker;
         this.editSpeaker = editSpeaker;
         this.deleteSpeaker = deleteSpeaker;
         this.clearSpeakers = clearSpeakers;
-        this.generate = generate;
+        this.seriesButton = seriesButton;
+        this.parallelButton = parallelButton;
 
+        this.speakerList = new ArrayList<Speaker>(); // may not store data through multiple button presses?       
         this.tableData = new ArrayList<ArrayList<String>>();
 
         UIManager.put("OptionPane.minimumSize", new Dimension(300, 250));
@@ -46,11 +47,11 @@ public class WireListener implements ActionListener {
 
         if (source == addSpeaker)
         {
-            int result = JOptionPane.showConfirmDialog(speakerTable, promptPanel, "Add a Speaker", JOptionPane.OK_CANCEL_OPTION);
+            int result = JOptionPane.showConfirmDialog(addSpeaker, promptPanel, "Add a Speaker", JOptionPane.OK_CANCEL_OPTION);
 
             if (result == JOptionPane.OK_OPTION)
             {
-                //TODO create array for each row, where each entry corresponds to column data
+                // create array for each row, where each entry corresponds to column data
                 if (isValid(this.speakerResist.getText())) 
                 {
                     String resistString = this.speakerResist.getText();
@@ -76,6 +77,9 @@ public class WireListener implements ActionListener {
                             speakerList.add(currentSpeaker);
                             row.add(currentSpeaker.getName());
                             row.add(String.valueOf(currentSpeaker.getResistance()));
+                            tableData.add(row);
+
+                            tableModel.addRow(row.toArray(new String[0]));
                         }
 
                     } catch (NumberFormatException nfe)
@@ -95,13 +99,24 @@ public class WireListener implements ActionListener {
         } else if (source == clearSpeakers)
         {
             this.tableData = new ArrayList<ArrayList<String>>();
+            this.speakerList = new ArrayList<Speaker>();
+            tableModel.setRowCount(0);
 
-        } else if (source == generate)
+        } else if (source == seriesButton)
         {
             if (speakerList.size() > 0)
             {
                 calculator = new WiringCalculator(speakerList);
-                //TODO decide how we will use UI to select series, parallel, or otherwise
+                resultField.setText(calculator.createDiagram(false));
+
+            }
+
+        } else if (source == parallelButton)
+        {
+            if (speakerList.size() > 0)
+            {
+                calculator = new WiringCalculator(speakerList);
+                resultField.setText(calculator.createDiagram(true));
             }
 
         }

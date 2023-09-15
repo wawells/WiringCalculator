@@ -3,19 +3,17 @@ package struct;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class WiringInterface 
 {
     private JFrame frame;
-    private JPanel contentPanel, topPanel, buttonPanel, resultPanel;
+    private JPanel contentPanel, topPanel, buttonPanel, resultPanel, genPanel;
     private DefaultTableModel tableModel;
     private JTable speakerTable;
-    //private ArrayList<String> speakerData;
     private JTextArea resultField;
     private JScrollPane scrollPane;
-    private JButton addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, generateButton;
-    private JLabel topLabel, bottomLabel;
+    private JButton addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, seriesButton, parallelButton;
+    private JLabel bottomLabel;
 
     private WireListener listener;
 
@@ -45,7 +43,6 @@ public class WiringInterface
         tableModel = new DefaultTableModel();
         tableModel.addColumn("Speaker Name");
         tableModel.addColumn("Speaker Resistance");
-        //speakerData = new ArrayList<String>();
         speakerTable = new JTable(tableModel);
         Dimension tableSize = new Dimension(150, 300);
         speakerTable.setPreferredScrollableViewportSize(tableSize);
@@ -54,9 +51,7 @@ public class WiringInterface
         resultPanel = new JPanel(new BorderLayout());
         resultField = new JTextArea(10, 30);
         resultField.setPreferredSize(new Dimension(300, 265));
-        generateButton = new JButton("Show Wiring");
         bottomLabel = new JLabel("  Results:");
-
         
         buttonPanel = new JPanel(new GridBagLayout());  
         GridBagConstraints gbc = new GridBagConstraints();
@@ -67,15 +62,18 @@ public class WiringInterface
         editSpeaker = new JButton("Edit");
         deleteSpeaker = new JButton("Delete");
         clearSpeakers = new JButton("Clear");
+        seriesButton = new JButton("Show Series");
+        parallelButton = new JButton("Show Parallel");
 
 
-        listener = new WireListener(speakerTable, resultField, addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, generateButton);
+        listener = new WireListener(tableModel, resultField, addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, seriesButton, parallelButton);
 
         addSpeaker.addActionListener(listener);
         editSpeaker.addActionListener(listener);
         deleteSpeaker.addActionListener(listener);
         clearSpeakers.addActionListener(listener);
-        generateButton.addActionListener(listener);
+        seriesButton.addActionListener(listener);
+        parallelButton.addActionListener(listener);
 
         gbc.gridx = 0;
         buttonPanel.add(addSpeaker, gbc);
@@ -95,11 +93,19 @@ public class WiringInterface
         topPanel.add(scrollPane, BorderLayout.NORTH);
         topPanel.add(buttonPanel, BorderLayout.CENTER);
 
+        //genPanel setup
+        genPanel = new JPanel(new BorderLayout());
+        genPanel.add(parallelButton, BorderLayout.EAST);
+        genPanel.add(seriesButton, BorderLayout.WEST);
 
-        //bottom half of app
+        
+
+        //results section
         resultPanel.add(bottomLabel, BorderLayout.NORTH);
         resultPanel.add(resultField, BorderLayout.CENTER);
-        resultPanel.add(generateButton, BorderLayout.SOUTH);
+        resultPanel.add(genPanel, BorderLayout.SOUTH);
+
+
         
 
         //whole app

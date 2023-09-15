@@ -22,13 +22,7 @@ public class Speaker {
         if (isValid(name)) this.name = name;
     }
 
-    // public Speaker(int resistance, String name, int size)
-    // {
-    //     if (isValidResistance(resistance)) this.resistance = resistance;
-    //     if (isValid(name)) this.name = name;
-    //     this.size = size;
-    // }
-
+   
 
     public String getName()
     {

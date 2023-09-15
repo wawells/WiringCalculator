@@ -19,25 +19,23 @@ public class WiringCalculator
      */
     public WiringCalculator(ArrayList<Speaker> speakerList)
     {
-        speakers = new ArrayList<Speaker>();
+        this.speakers = new ArrayList<Speaker>();
         if (speakerList != null && speakerList.size() > 0)
         {
             for (Speaker current: speakerList)
             {
-                speakers.add(current);
+                this.speakers.add(current);
             }
         }
             
     }
 
-
-
     /**
      * Calculates the resistance of the entire system in parallel.
      */
-    public int getParallel() {
+    public double getParallel() {
         int numSpeakers = getNumSpeakers();
-        int impedance = 0;
+        double impedance = 0;
         if (numSpeakers == 1)
         {
             impedance = getSpeaker(0).getResistance();
@@ -50,7 +48,7 @@ public class WiringCalculator
                inverseSum += (1.0/current.getResistance());
             }
 
-            impedance = (int)(1.0 / inverseSum);
+            impedance = (1.0 / inverseSum);
             
         }
         return impedance;
