@@ -83,7 +83,7 @@ public class Speaker {
     /***********************private methods****************/
     private boolean isValid(int resist)
     {
-        return (resist >= 4 && resist <= 16 && resist % 2 == 0);
+        return (resist >= 0 && resist <= 64 && resist % 2 == 0);
     }
 
     private boolean isValid(String toTest)

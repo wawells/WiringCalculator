@@ -12,25 +12,27 @@ public class WireListener implements ActionListener {
 
     private WiringCalculator calculator;
 
+    private JTable speakerTable;    
     private DefaultTableModel tableModel;
     private JTextArea resultField;
-    private JButton addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, seriesButton, parallelButton;
+    private JButton addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, seriesButton, parallelButton, clearResButton;
 
     private ArrayList<Speaker> speakerList;
     private ArrayList<ArrayList<String>> tableData; //list of speakers to update
     private JPanel promptPanel;
     private JTextField speakerName, speakerResist;
 
-    public WireListener(DefaultTableModel tableModel, JTextArea resultField, JButton addSpeaker, JButton editSpeaker, JButton deleteSpeaker, JButton clearSpeakers, JButton seriesButton, JButton parallelButton)
+    public WireListener(JTable speakerTable, JTextArea resultField, JButton addSpeaker, JButton deleteSpeaker, JButton clearSpeakers, JButton seriesButton, JButton parallelButton, JButton clearResButton)
     {
-        this.tableModel = tableModel;
+        this.speakerTable = speakerTable;
+        this.tableModel = (DefaultTableModel)speakerTable.getModel();
         this.resultField = resultField;
         this.addSpeaker = addSpeaker;
-        this.editSpeaker = editSpeaker;
         this.deleteSpeaker = deleteSpeaker;
         this.clearSpeakers = clearSpeakers;
         this.seriesButton = seriesButton;
         this.parallelButton = parallelButton;
+        this.clearResButton = clearResButton;
 
         this.speakerList = new ArrayList<Speaker>(); // may not store data through multiple button presses?       
         this.tableData = new ArrayList<ArrayList<String>>();
@@ -90,11 +92,13 @@ public class WireListener implements ActionListener {
                 }
                 
             }
-        } else if (source == editSpeaker)
-        {
-
         } else if (source == deleteSpeaker)
         {
+            int selectedRow = speakerTable.getSelectedRow();
+            if (selectedRow != -1)
+            {
+                tableModel.removeRow(selectedRow);
+            }
             
         } else if (source == clearSpeakers)
         {
@@ -119,6 +123,9 @@ public class WireListener implements ActionListener {
                 resultField.setText(calculator.createDiagram(true));
             }
 
+        } else if (source == clearResButton)
+        {
+            this.resultField.setText("");
         }
 
 
@@ -152,7 +159,7 @@ public class WireListener implements ActionListener {
 
     private boolean isValid(int value)
     {
-        return (value > 0 && value < 64);
+        return (value > 0 && value < 64 && value%2 == 0);
     }
 
     

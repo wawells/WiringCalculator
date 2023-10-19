@@ -12,7 +12,7 @@ public class WiringInterface
     private JTable speakerTable;
     private JTextArea resultField;
     private JScrollPane scrollPane;
-    private JButton addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, seriesButton, parallelButton;
+    private JButton addSpeaker, deleteSpeaker, clearSpeakers, seriesButton, parallelButton, clearResButton;
     private JLabel bottomLabel;
 
     private WireListener listener;
@@ -31,6 +31,7 @@ public class WiringInterface
         frame = new JFrame("Wiring Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 700);
+        frame.setResizable(false);
 
         contentPanel = new JPanel(new BorderLayout());
         
@@ -59,32 +60,35 @@ public class WiringInterface
         gbc.weightx = 1.0; //make buttons equally spaced
 
         addSpeaker = new JButton("Add");
-        editSpeaker = new JButton("Edit");
         deleteSpeaker = new JButton("Delete");
         clearSpeakers = new JButton("Clear");
         seriesButton = new JButton("Show Series");
         parallelButton = new JButton("Show Parallel");
+        clearResButton = new JButton("Clear results");
 
 
-        listener = new WireListener(tableModel, resultField, addSpeaker, editSpeaker, deleteSpeaker, clearSpeakers, seriesButton, parallelButton);
+        listener = new WireListener(speakerTable, resultField, addSpeaker, deleteSpeaker, clearSpeakers, seriesButton, parallelButton, clearResButton);
 
         addSpeaker.addActionListener(listener);
-        editSpeaker.addActionListener(listener);
         deleteSpeaker.addActionListener(listener);
         clearSpeakers.addActionListener(listener);
         seriesButton.addActionListener(listener);
         parallelButton.addActionListener(listener);
+        clearResButton.addActionListener(listener);
 
         gbc.gridx = 0;
         buttonPanel.add(addSpeaker, gbc);
 
         gbc.gridx = 1;
-        buttonPanel.add(editSpeaker, gbc);
+        buttonPanel.add(new JPanel(), gbc);
 
         gbc.gridx = 2;
         buttonPanel.add(deleteSpeaker, gbc);
 
         gbc.gridx = 3;
+        buttonPanel.add(new JPanel(), gbc);
+
+        gbc.gridx = 4;
         buttonPanel.add(clearSpeakers, gbc);
 
 
@@ -94,9 +98,23 @@ public class WiringInterface
         topPanel.add(buttonPanel, BorderLayout.CENTER);
 
         //genPanel setup
-        genPanel = new JPanel(new BorderLayout());
-        genPanel.add(parallelButton, BorderLayout.EAST);
-        genPanel.add(seriesButton, BorderLayout.WEST);
+        genPanel = new JPanel(new GridBagLayout());
+
+        gbc.gridx = 0;
+        genPanel.add(seriesButton, gbc);
+
+        gbc.gridx = 1;
+        genPanel.add(new JPanel(), gbc);
+
+        
+        gbc.gridx = 2;
+        genPanel.add(parallelButton, gbc);
+
+        gbc.gridx = 3;
+        genPanel.add(new JPanel(), gbc);
+
+        gbc.gridx = 4;
+        genPanel.add(clearResButton, gbc);
 
         
 
@@ -106,10 +124,6 @@ public class WiringInterface
         resultPanel.add(genPanel, BorderLayout.SOUTH);
 
 
-        
-
-        //whole app
-        //contentPanel.add(spacerPanel, BorderLayout.NORTH);
         contentPanel.add(topPanel, BorderLayout.NORTH);
         contentPanel.add(resultPanel, BorderLayout.SOUTH);
 
