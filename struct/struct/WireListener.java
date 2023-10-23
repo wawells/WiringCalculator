@@ -97,6 +97,8 @@ public class WireListener implements ActionListener {
             int selectedRow = speakerTable.getSelectedRow();
             if (selectedRow != -1)
             {
+                //assuming the index of the table is the same as the arraylist
+                speakerList.remove(speakerList.get(selectedRow));
                 tableModel.removeRow(selectedRow);
             }
             
@@ -112,7 +114,7 @@ public class WireListener implements ActionListener {
             {
                 calculator = new WiringCalculator(speakerList);
                 resultField.setText(calculator.createDiagram(false));
-
+                resultField.setText(resultField.getText() + "\n " + calculator.getSeries());
             }
 
         } else if (source == parallelButton)
@@ -121,6 +123,8 @@ public class WireListener implements ActionListener {
             {
                 calculator = new WiringCalculator(speakerList);
                 resultField.setText(calculator.createDiagram(true));
+                resultField.setText(resultField.getText() + "\n " + calculator.getParallel());
+
             }
 
         } else if (source == clearResButton)
