@@ -80,15 +80,9 @@ public class WiringInterface
         buttonPanel.add(addSpeaker, gbc);
 
         gbc.gridx = 1;
-        buttonPanel.add(new JPanel(), gbc);
-
-        gbc.gridx = 2;
         buttonPanel.add(deleteSpeaker, gbc);
 
-        gbc.gridx = 3;
-        buttonPanel.add(new JPanel(), gbc);
-
-        gbc.gridx = 4;
+        gbc.gridx = 2;
         buttonPanel.add(clearSpeakers, gbc);
 
 
@@ -104,18 +98,10 @@ public class WiringInterface
         genPanel.add(seriesButton, gbc);
 
         gbc.gridx = 1;
-        genPanel.add(new JPanel(), gbc);
-
-        
-        gbc.gridx = 2;
         genPanel.add(parallelButton, gbc);
 
-        gbc.gridx = 3;
-        genPanel.add(new JPanel(), gbc);
-
-        gbc.gridx = 4;
+        gbc.gridx = 2;
         genPanel.add(clearResButton, gbc);
-
         
 
         //results section
